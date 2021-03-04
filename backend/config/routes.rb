@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   #
 
   namespace :api do
-    resources :chirps, only: [:index]
+    resources :chirps, only: [:index, :create]
+
+    put '/chirps/:chirp_id/vote_chirp', to: 'chirps#vote_chirp'
   end
 end

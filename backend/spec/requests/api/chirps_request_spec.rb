@@ -18,4 +18,35 @@ RSpec.describe "Api::Chirps", type: :request do
       expect(response_body).to eq(expected_response)
     end 
   end
+
+  describe 'create' do
+    let(:request) do
+      {
+        text: Faker::Lorem.characters(number: 140)
+      }
+    end
+
+    it 'creates a new chirp' do
+      post '/api/chirps', params: request
+
+      expect(response).to have_http_status(:created)
+      response_body = JSON.parse(response.body)
+    end
+  end
+
+  describe 'vote_chirp' do
+    let(:chirp) { FactoryBot.create(:chirp) }
+    let(:request) do
+      {
+        up_vote: 'true'
+      }
+    end
+
+    it 'creates a new chirp' do
+      put "/api/chirps/#{chirp.id}/vote_chirp", params: request
+
+      expect(response).to have_http_status(:ok)
+      p response_body = JSON.parse(response.body)
+    end
+  end
 end
